@@ -75,15 +75,15 @@ end
 
 
 
-for i = 1:m % perform forward proagation
+ % perform forward proagation
                      
   % feedforward propagation
   
-  z2 =  X(i,:)*Theta1'; % calculate z for the second layer
+  z2 =  X()*Theta1'; % calculate z for the second layer
   
   a2 = sigmoid(z2);  % 
   
-  a2 = [a2, 1]; % add the bias unit to the second layer
+  a2 = [a2, ones(size(a2,1),1)]; % add the bias unit to the second layer
   
   z3 = a2 * Theta2';
     
@@ -93,16 +93,13 @@ for i = 1:m % perform forward proagation
   
   % calculate the cost of each example and update the overall cost
   
-  J = J + sum((-yvec(i,:).*log(a3))  -  ((1-yvec(i,:).*log(1-a3))));
+  J = sum(sum((-yvec*log(a3'))  -  ((1-yvec*log(1-a3')))))/m;
   
   
   
-end
+
  
-    % find the average of the cost
-    J = J/m;
-
-
+    
 
 
 
