@@ -64,7 +64,7 @@ Theta2_grad = zeros(size(Theta2));
 
 % add a column of ones to the X variable
 
-X = [X, ones(m,1)]; % add a column of ones to the training data set
+X = [ones(m,1),X]; % add a column of ones to the first column training data set
 yvec = zeros(5000,10);
 
 
@@ -73,17 +73,15 @@ for i = 1:size(y,1) % create vector representations of the output labels
 end 
 
 
-
-
  % perform forward proagation
                      
   % feedforward propagation
   
-  z2 =  X()*Theta1'; % calculate z for the second layer
+  z2 =  X*Theta1'; % calculate z for the second layer
   
   a2 = sigmoid(z2);  % 
   
-  a2 = [a2, ones(size(a2,1),1)]; % add the bias unit to the second layer
+  a2 = [ones(size(a2,1),1),a2]; % add the bias unit to the second layer
   
   z3 = a2 * Theta2';
     
@@ -91,23 +89,10 @@ end
     
   % compute the cost 
   
-  % calculate the cost of each example and update the overall cost
-  
-  J = sum(sum((-yvec*log(a3'))  -  ((1-yvec*log(1-a3')))))/m;
   
   
-  
-
+  J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m;
  
-    
-
-
-
-
-
-
-
-
 
 % -------------------------------------------------------------
 
