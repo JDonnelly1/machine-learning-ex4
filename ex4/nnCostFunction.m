@@ -87,13 +87,12 @@ end
     
   a3 = sigmoid(z3); % a3 is the hypothesis 
     
-  % compute the cost 
+  % compute the cost with regularisation
   
   
   
-  J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m;
+  J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + ((lambda/(2*m))*((sum(sum(Theta1(:,2:end).^2))) + sum(sum(Theta2(:,2:end).^2))));
  
-
 % -------------------------------------------------------------
 
 % =========================================================================

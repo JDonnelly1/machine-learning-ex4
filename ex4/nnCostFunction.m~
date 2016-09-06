@@ -64,7 +64,7 @@ Theta2_grad = zeros(size(Theta2));
 
 % add a column of ones to the X variable
 
-X = [X,ones(m,1)]; % add a column of ones to the training data set
+X = [ones(m,1),X]; % add a column of ones to the first column training data set
 yvec = zeros(5000,10);
 
 
@@ -81,32 +81,18 @@ end
   
   a2 = sigmoid(z2);  % 
   
-  a2 = [ a2,ones(size(a2,1),1)]; % add the bias unit to the second layer
+  a2 = [ones(size(a2,1),1),a2]; % add the bias unit to the second layer
   
   z3 = a2 * Theta2';
     
   a3 = sigmoid(z3); % a3 is the hypothesis 
     
-  % compute the cost 
-  
-  % calculate the cost of each example and update the overall cost
-  
-  J = sum(sum((-yvec*log(a3'))  -  ((1-yvec*log(1-a3')))))/m;
+  % compute the cost with regularisation
+  lam 
   
   
-  
-
+  J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + lambda*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)))/2*m;
  
-    
-
-
-
-
-
-
-
-
-
 % -------------------------------------------------------------
 
 % =========================================================================
