@@ -90,10 +90,26 @@ end
   % compute the cost with regularisation
   
   
-  
-  J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + ((lambda/(2*m))*((sum(sum(Theta1(:,2:end).^2))) + sum(sum(Theta2(:,2:end).^2))));
- 
+
+J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + ((lambda/(2*m))*((sum(sum(Theta1(:,2:end).^2))) + sum(sum(Theta2(:,2:end).^2))));
+
+% cost
 % -------------------------------------------------------------
+
+
+% calculate the delta values in order to compute the gradient
+
+Delta_3 = a3 - yvec;
+
+Delta_2 = Delta_3 * Theta2(:,2:end).* (a2(:,2:end).* (1-a2(:,2:end))); 
+
+% claculate the gradients
+
+%Theta2_grad = 
+
+%Theta1_grad = 
+
+
 
 % =========================================================================
 

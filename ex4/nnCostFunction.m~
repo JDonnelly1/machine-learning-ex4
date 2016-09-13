@@ -88,12 +88,27 @@ end
   a3 = sigmoid(z3); % a3 is the hypothesis 
     
   % compute the cost with regularisation
-  lam 
   
   
-  J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + lambda*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)))/2*m;
- 
+
+J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + ((lambda/(2*m))*((sum(sum(Theta1(:,2:end).^2))) + sum(sum(Theta2(:,2:end).^2))));
+
+% cost
 % -------------------------------------------------------------
+
+
+% calculate the delta values in order to compute the gradient
+
+Delta_3 = a3 - yvec;
+% complete the sigmoid gradient function to use here instead ***
+Delta_2 = Delta_3 * Theta2(:,2:end).* (a2(:,2:end).* (1-a2(:,2:end))); 
+
+% claculate the gradients
+
+for i = 1:m % finish the loop
+    
+
+
 
 % =========================================================================
 
