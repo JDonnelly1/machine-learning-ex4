@@ -65,19 +65,21 @@ Theta2_grad = zeros(size(Theta2));
 % add a column of ones to the X variable
 
 X = [ones(m,1),X]; % add a column of ones to the first column training data set
-yvec = zeros(5000,10);
+yvec = zeros(m,num_labels);
 
 
 for i = 1:size(y,1) % create vector representations of the output labels
    yvec(i,y(i))=1;  
-end 
+end
 
 
- % perform forward proagation
+% loop through every example one at a time
+
+for i = 1:m
                      
-  % feedforward propagation
+  % feedforward propagation computed for each example i in the loop
   
-  z2 =  X*Theta1'; % calculate z for the second layer
+  z2 =  X(i,:)*Theta1'; % calculate z for the second layer
   
   a2 = sigmoid(z2);  % 
   
@@ -85,31 +87,39 @@ end
   
   z3 = a2 * Theta2';
     
-  a3 = sigmoid(z3); % a3 is the hypothesis 
+  a3 = sigmoid(z3); % a3 is the hypothesis for each example
     
   % compute the cost with regularisation
-  
-  
+ 
+  % update the cost for each training example. The regularisation is
+  % added at the end
+  J = J + sum(sum((-yvec(i,:).*log(a3))  -  ((1-yvec(i,:)).*log(1-a3))))/m;  
 
-J = sum(sum((-yvec.*log(a3))  -  ((1-yvec).*log(1-a3))))/m + ((lambda/(2*m))*((sum(sum(Theta1(:,2:end).^2))) + sum(sum(Theta2(:,2:end).^2))));
 
-% cost
 % -------------------------------------------------------------
 
 
 % calculate the delta values in order to compute the gradient
 
-Delta_3 = a3 - yvec;
+% This is the error between the output layer values for the ith training
+% example and the labeled value in y of the ith example
+Delta_3 = a3 - yvec(i,:);
 
+% could use the sigmoid gradient function to use here instead FIX
 Delta_2 = Delta_3 * Theta2(:,2:end).* (a2(:,2:end).* (1-a2(:,2:end))); 
 
-% claculate the gradients
+% accumulate the gradients from each example 
+Theta2_grad = Theta2_grad + a3* Delta_3';
+Theta1_grad = Theta1_grad + a2(2:end)* Delta_2';
 
-%Theta2_grad = 
+end;
+   
+Theta2_grad = Theta2_grad/m;
+Theta1_grad = Theta1_grad/m;
 
-%Theta1_grad = 
 
-
+% add regularization term to the cost
+J = J + ((lambda/(2*m))*((sum(sum(Theta1(:,2:end).^2))) + sum(sum(Theta2(:,2:end).^2))));
 
 % =========================================================================
 
